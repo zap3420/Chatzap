@@ -9,7 +9,6 @@ import {
   updateDoc,
 } from "firebase/firestore";
 import { db, storage } from "../firebase";
-import { v4 as uuid } from "uuid";
 import { getDownloadURL, ref, uploadBytesResumable } from "firebase/storage";
 import EmojiPicker from "emoji-picker-react";
 import { MdEmojiEmotions } from "react-icons/md";
@@ -18,11 +17,12 @@ const Input = () => {
   const [open, setOpen] = useState(false);
   const [text, setText] = useState("");
   const [img, setImg] = useState(null);
+  const [imgPreview, setImgPreview] = useState(null);
   const { currentUser } = useContext(AuthContext);
   const { data } = useContext(ChatContext);
 
   const handleEmoji = (e) => {
-    setText(prev => prev + e.emoji);
+    setText((prev) => prev + e.emoji);
     setOpen(false);
   };
 
@@ -41,38 +41,49 @@ const Input = () => {
     }
 
     if (img) {
-      const storageRef = ref(storage, uuid());
+      // Generate a unique message ID using image name and current timestamp
+      const messageId = `${img.name}_${Date.now()}`;
+      const storageRef = ref(storage, messageId);
 
       const uploadTask = uploadBytesResumable(storageRef, img);
 
-      uploadTask.on(
-        (error) => {
-          // Handle Error
-          console.error("Error uploading image:", error);
-        },
-        () => {
-          getDownloadURL(uploadTask.snapshot.ref).then(async (downloadURL) => {
-            try {
-              await updateDoc(doc(db, "chats", chatId), {
-                messages: arrayUnion({
-                  id: uuid(),
-                  text,
-                  senderId: currentUser.uid,
-                  date: Timestamp.now(),
-                  img: downloadURL,
-                }),
-              });
-            } catch (error) {
-              console.error("Error updating messages:", error);
+      try {
+        // Wait for the upload to be complete
+        await new Promise((resolve, reject) => {
+          uploadTask.on(
+            "state_changed",
+            null,
+            (error) => {
+              console.error("Error uploading image:", error);
+              reject(error);
+            },
+            () => {
+              resolve();
             }
-          });
-        }
-      );
+          );
+        });
+
+        // Get download URL after successful upload
+        const downloadURL = await getDownloadURL(uploadTask.snapshot.ref);
+
+        // Update Firestore document with the message details
+        await updateDoc(doc(db, "chats", chatId), {
+          messages: arrayUnion({
+            id: messageId, // Use generated message ID
+            text,
+            senderId: currentUser.uid,
+            date: Timestamp.now(),
+            img: downloadURL,
+          }),
+        });
+      } catch (error) {
+        console.error("Error updating messages:", error);
+      }
     } else {
       try {
         await updateDoc(doc(db, "chats", chatId), {
           messages: arrayUnion({
-            id: uuid(),
+            id: Date.now(), // Use timestamp as unique message ID
             text,
             senderId: currentUser.uid,
             date: Timestamp.now(),
@@ -84,32 +95,57 @@ const Input = () => {
     }
     setText("");
     setImg(null);
+    setImgPreview(null);
+  };
+
+  const handleFileChange = (e) => {
+    const file = e.target.files[0];
+    setImg(file);
+
+    const reader = new FileReader();
+    reader.onload = () => {
+      setImgPreview(reader.result);
+    };
+    reader.readAsDataURL(file);
   };
 
   return (
     <div className="input">
-      <input
-        type="text"
-        placeholder="Type something..."
-        onChange={(e) => setText(e.target.value)}
-        onKeyPress={handleKeyPress}
-        value={text}
-      />
+      <div className="input-container">
+        {imgPreview && (
+          <img
+            src={imgPreview}
+            alt="Img Preview"
+            className="image-preview"
+          />
+        )}
+        <input
+          type="text"
+          placeholder="Type something..."
+          onChange={(e) => setText(e.target.value)}
+          onKeyPress={handleKeyPress}
+          value={text}
+          className="text-input"
+        />
+      </div>
       <div className="send">
         <input
           type="file"
           style={{ display: "none" }}
           id="file"
-          onChange={(e) => setImg(e.target.files[0])}
+          onChange={handleFileChange}
         />
         <label className="emoji">
-          <MdEmojiEmotions style={{ fontSize: '24px' }} onClick={() => setOpen(prev => !prev)} />
+          <MdEmojiEmotions
+            style={{ fontSize: "24px" }}
+            onClick={() => setOpen((prev) => !prev)}
+          />
         </label>
-        <div className={`picker ${open ? 'open' : ''}`}>
+        <div className={`picker ${open ? "open" : ""}`}>
           <EmojiPicker onEmojiClick={handleEmoji} />
         </div>
         <label htmlFor="file">
-          <RiImageAddFill style={{ fontSize: '24px' }} />
+          <RiImageAddFill style={{ fontSize: "24px" }} />
         </label>
         <button onClick={handleSend}>Send</button>
       </div>
