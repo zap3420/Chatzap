@@ -512,7 +512,7 @@ body {
 
             }
 
-            .input{
+            .input {
                 position: relative;
                 height: 50px;
                 background-color: #f7f7ff;
@@ -520,94 +520,111 @@ body {
                 display: flex;
                 align-items: center;
                 justify-content: space-between;
+                border: none;
+              
                 .input-container {
-                    position: relative;
-                    flex: 1;
-                  }
-                  
+                  position: relative;
+                  flex: 1;
+              
                   .text-input {
                     width: 100%;
                     padding: 10px;
-                    padding-left: 40px; 
                     box-sizing: border-box;
-                  }
-                  
-                  .image-preview {
-                    position: absolute;
-                    left: 10px; 
-                    top: 50%;
-                    transform: translateY(-50%);
-                    max-height: 150px;
-                    max-width: 150px;
-                  }
-                input{
-                    background-color: #f7f7ff;
-                    width: 100%;
-                    border:none;
-                    outline:none;
-                    color:#2f2d52;
-                    font-size:18px;
-                    &::placeholder{
-                        color:lightgray;
+                    border: none;
+                    @include mobile {
+                      padding: 5px;
+                      font-size: 14px;
                     }
+                    @include tablet {
+                      padding: 8px;
+                      font-size: 16px;
+                    }
+                  }
                 }
-                
-                .send{
+              
+                .send {
+                  display: flex;
+                  align-items: center;
+                  gap: 10px;
+                  @include mobile {
+                    gap: 3px;
+                  }
+              
+                  label {
                     display: flex;
                     align-items: center;
-                    gap:10px;
-                    @include mobile(){
-                        gap:3px;
-                 
+                    justify-content: center;
+                    cursor: pointer;
+              
+                    .image-preview {
+                      width: 24px;
+                      height: 24px;
+                      object-fit: cover;
+                      border-radius: 4px;
+                      @include mobile {
+                        width: 20px;
+                        height: 20px;
+                      }
+                      @include tablet {
+                        width: 22px;
+                        height: 22px;
+                      }
                     }
+                  }
                 }
-
-                img{
-                    height: 24px;
-                    width: 24px;
+              
+                img {
+                  height: 24px;
+                  width: 24px;
                 }
-
-                button{
-                    background-color: #4d4399;
-                    color:white;
-                    padding:10px 15px;
-                    font-weight: bold;
-                    border: none;
-                    border-radius: 10%;
-                    transition: background-color 0.3s ease;
-                    &:hover {
-                        background-color: #7269d5;
-                    }
-                    @include mobile(){
-                        padding: 5px 10px;
-                    }
+              
+                button {
+                  background-color: #4d4399;
+                  color: white;
+                  padding: 10px 15px;
+                  font-weight: bold;
+                  border: none;
+                  border-radius: 10%;
+                  transition: background-color 0.3s ease;
+                  &:hover {
+                    background-color: #7269d5;
+                  }
+                  @include mobile {
+                    padding: 5px 10px;
+                  }
                 }
+              
                 .picker {
-                    position: absolute;
-                    bottom: 270px;
-                    left: 0px;
-                    z-index: 1000;
-                    display: none;
-                    width: 100px; // Adjust width here
-                    height: 100px; // Adjust height here
-                    @include mobile(){
-                        left: -90px;
-                        bottom: 320px;
-                    }
-                    &.open {
-                      display: block;
-                    }
-                    
-                    button{
-                        background-color: rgba(255, 255, 255, 0);
-                    }
+                  position: absolute;
+                  bottom: 270px;
+                  left: 0px;
+                  z-index: 1000;
+                  display: none;
+                  width: 100px;
+                  height: 100px;
+                  @include mobile {
+                    left: -90px;
+                    bottom: 320px;
                   }
-                  aside{
-                    height:350px !important;
-                    width: 250px !important;
+                  @include tablet {
+                    left: -50px;
+                    bottom: 300px;
                   }
-                
-            }
+                  &.open {
+                    display: block;
+                  }
+                  button {
+                    background-color: rgba(255, 255, 255, 0);
+                  }
+                }
+              
+                aside {
+                  height: 350px !important;
+                  width: 250px !important;
+                }
+              }
+              
+              
         }
     }
 }
