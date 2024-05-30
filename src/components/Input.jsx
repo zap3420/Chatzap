@@ -112,13 +112,6 @@ const Input = () => {
   return (
     <div className="input">
       <div className="input-container">
-        {imgPreview && (
-          <img
-            src={imgPreview}
-            alt="Img Preview"
-            className="image-preview"
-          />
-        )}
         <input
           type="text"
           placeholder="Type something..."
@@ -135,6 +128,17 @@ const Input = () => {
           id="file"
           onChange={handleFileChange}
         />
+        <label htmlFor="file">
+          {imgPreview ? (
+            <img
+              src={imgPreview}
+              alt="Img Preview"
+              className="image-preview"
+            />
+          ) : (
+            <RiImageAddFill style={{ fontSize: "24px" }} />
+          )}
+        </label>
         <label className="emoji">
           <MdEmojiEmotions
             style={{ fontSize: "24px" }}
@@ -144,9 +148,6 @@ const Input = () => {
         <div className={`picker ${open ? "open" : ""}`}>
           <EmojiPicker onEmojiClick={handleEmoji} />
         </div>
-        <label htmlFor="file">
-          <RiImageAddFill style={{ fontSize: "24px" }} />
-        </label>
         <button onClick={handleSend}>Send</button>
       </div>
     </div>
