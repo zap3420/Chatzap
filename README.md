@@ -2,7 +2,7 @@
 
 This project is a chat application built with [React](https://react.dev/) and [Firebase](https://firebase.google.com/).
 
-Hosted on: [https://weatherchecker342.netlify.app/](https://chatzap.netlify.app/)
+Hosted on: [Chatzap](https://chatzap.netlify.app/)
 ## Features
 
 * User Authentication: Secure login and registration functionalities using Firebase Authentication.
