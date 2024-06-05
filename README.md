@@ -2,7 +2,7 @@
 
 This project is a chat application built with [React](https://react.dev/) and [Firebase](https://firebase.google.com/).
 
-Hosted on: https://chatzap.netlify.app/{target="_blank"}
+Hosted on: [https://chatzap.netlify.app/](https://chatzap.netlify.app/){target="_blank"}
 ## Features
 
 * User Authentication: Secure login and registration functionalities using Firebase Authentication.
