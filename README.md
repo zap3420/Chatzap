@@ -1,7 +1,7 @@
 # Chatzap
 
 This project is a chat application built with [React](https://react.dev/) and [Firebase](https://firebase.google.com/).
-
+Hosted on: [https://weatherchecker342.netlify.app/](https://chatzap.netlify.app/)
 ## Features
 
 * User Authentication: Secure login and registration functionalities using Firebase Authentication.
@@ -26,7 +26,7 @@ This project is a chat application built with [React](https://react.dev/) and [F
 
 ## Clone the repository:
 ``` 
-git clone https://github.com/your-username/chatzap.git
+git clone https://github.com/zap3420/chatzap.git
 cd chatzap
 ```
 ## Install the dependencies:
