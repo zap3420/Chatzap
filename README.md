@@ -27,7 +27,7 @@ Hosted on: [https://chatzap.netlify.app/](https://chatzap.netlify.app/)
 
 ## Clone the repository:
 ``` 
-git clone https://github.com/zap3420/chatzap.git
+git clone https://github.com/zap3420/Chatzap.git
 cd chatzap
 ```
 ## Install the dependencies:
