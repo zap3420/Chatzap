@@ -23,6 +23,20 @@ Hosted on: [https://chatzap.netlify.app/](https://chatzap.netlify.app/)
 * Date-fns: For formatting dates and times.
 * Lodash.debounce: For optimizing search input handling.
 
+### Test Users
+For testing purposes, you can use the following credentials to log in:
+
+**User 1:**
+- Email: `user1@gmail.com`
+- Password: `user123`
+
+**User 2:**
+- Email: `user2@gmail.com`
+- Password: `user123`
+
+### User Search
+The application includes a search bar that allows you to search for the usernames of registered users.
+
 # Getting Started
 
 ## Clone the repository:
